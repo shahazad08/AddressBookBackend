@@ -4,6 +4,7 @@ import com.bridgelabz.addressbookapp.Dto.AddressBookDto;
 import com.bridgelabz.addressbookapp.Dto.ResponseDTO;
 import com.bridgelabz.addressbookapp.Model.AddressBookData;
 import com.bridgelabz.addressbookapp.Service.IAddressBookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class AddressBookController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createAddressBookData(@RequestBody AddressBookDto addressBookDto){
+    public ResponseEntity<ResponseDTO> createAddressBookData(@Valid  @RequestBody AddressBookDto addressBookDto){
         AddressBookData addressBookData=null;
         addressBookData=iAddressBookService.createAddressBookData(addressBookDto);
         ResponseDTO responseDTO = new ResponseDTO("Create address Book  for: ", addressBookData);

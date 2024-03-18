@@ -45,7 +45,5 @@ public class AddressBookService implements IAddressBookService{
     @Override
     public void deleteAddressBookData(int empId) {
         getAddressBookDataById(empId).ifPresent(addressBookRepository::delete);
-
-
     }
 }
