@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class AddressBookController {
 
     @GetMapping("/get/{empId}")
     public ResponseEntity<ResponseDTO> getAddressBookDataById(@PathVariable("empId") int empId){
-        Optional<AddressBookData> addressBookData=null;
+        AddressBookData addressBookData=null;
         addressBookData=iAddressBookService.getAddressBookDataById(empId);
         ResponseDTO responseDTO = new ResponseDTO("Get Call for Id Successfull",addressBookData); // Response DTO
         return new ResponseEntity<ResponseDTO>(responseDTO,HttpStatus.OK);
@@ -49,7 +51,7 @@ public class AddressBookController {
 
 
     @PutMapping("/update/{empId}")
-    public ResponseEntity<ResponseDTO> updateAddressBookData(@PathVariable("empId") int empId, @RequestBody AddressBookDto addressBookDto){
+    public ResponseEntity<ResponseDTO> updateAddressBookData( @PathVariable("empId") int empId, @Valid @RequestBody AddressBookDto addressBookDto){
         AddressBookData addressBookData=null;
         addressBookData=iAddressBookService.updateAddressBookData(empId, addressBookDto);
         ResponseDTO responseDTO = new ResponseDTO("Update Employee payroll Data for: ", addressBookData);

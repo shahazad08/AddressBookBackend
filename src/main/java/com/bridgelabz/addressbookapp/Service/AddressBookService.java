@@ -2,6 +2,7 @@ package com.bridgelabz.addressbookapp.Service;
 
 import com.bridgelabz.addressbookapp.Dto.AddressBookDto;
 import com.bridgelabz.addressbookapp.Model.AddressBookData;
+import com.bridgelabz.addressbookapp.exceptions.AddressBookException;
 import com.bridgelabz.addressbookapp.repository.AddressBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ public class AddressBookService implements IAddressBookService{
     }
 
     @Override
-    public Optional<AddressBookData> getAddressBookDataById(int empId) {
-       return addressBookRepository.findById(empId);
+    public AddressBookData getAddressBookDataById(int empId) {
+
+        return addressBookRepository.findById(empId)
+                .orElseThrow(() -> new AddressBookException("Id " + empId
+                        + " Doesn't Exists...!"));
     }
 
     @Override
@@ -33,17 +37,14 @@ public class AddressBookService implements IAddressBookService{
 
     @Override
     public AddressBookData updateAddressBookData(int empId, AddressBookDto addressBookDto) {
-        return getAddressBookDataById(empId)
-                .map(addressBookData -> {
-                    addressBookData.updateAddressBookData(addressBookDto);
-                    return addressBookData;
-                })
-                .map(addressBookRepository::save)
-                .orElse(null); // or handle appropriately if data is not found
+        AddressBookData addressBookData=this.getAddressBookDataById(empId);
+        addressBookData.updateAddressBookData(addressBookDto);
+        return addressBookRepository.save(addressBookData);
     }
 
     @Override
     public void deleteAddressBookData(int empId) {
-        getAddressBookDataById(empId).ifPresent(addressBookRepository::delete);
+        AddressBookData addressBookData=this.getAddressBookDataById(empId);
+        addressBookRepository.delete(addressBookData);
     }
 }

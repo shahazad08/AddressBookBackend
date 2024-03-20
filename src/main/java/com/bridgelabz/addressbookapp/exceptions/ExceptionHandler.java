@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class ExceptionHandler {
     private static final String message = "Exception While Processing REST Request";
 
+    // Exception is Handled for the Create Request
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception) {
@@ -25,4 +26,14 @@ public class ExceptionHandler {
         ResponseDTO responseDTO = new ResponseDTO(message, errMesg);
         return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
     }
+
+    // Exception is Handled for the Get Data By Id
+    @org.springframework.web.bind.annotation.ExceptionHandler(AddressBookException.class)
+    public ResponseEntity<ResponseDTO> handleEmployeePayrollException(
+            AddressBookException exception) {
+        ResponseDTO responseDTO = new ResponseDTO("Exception while REST Request",
+                exception.getMessage());
+        return new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.BAD_REQUEST);
+    }
+
 }

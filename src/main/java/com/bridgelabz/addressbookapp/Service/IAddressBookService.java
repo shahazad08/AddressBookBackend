@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface IAddressBookService {
     List<AddressBookData> getAddressBookData();
-    Optional<AddressBookData> getAddressBookDataById(int empId);
+    AddressBookData getAddressBookDataById(int empId);
 
     AddressBookData createAddressBookData(AddressBookDto addressBookDto);
 
